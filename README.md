@@ -1,2 +1,1 @@
 # BookSnippetsHub-android
-# BookSnippetsHub-android
