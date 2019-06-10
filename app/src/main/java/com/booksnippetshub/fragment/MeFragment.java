@@ -11,15 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.booksnippetshub.R;
+import com.facebook.drawee.view.SimpleDraweeView;
 
 import javax.security.auth.login.LoginException;
 
 
 public class MeFragment extends Fragment {
 
+    private TextView nickNameTextView;
     private AppCompatActivity activity;
+    private SimpleDraweeView avatarDraweeView;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -89,7 +93,6 @@ public class MeFragment extends Fragment {
     public void onAttach(Context context) {
         Log.d("lifecycle", "onAttach ");
         super.onAttach(context);
-
         this.activity= (AppCompatActivity) getActivity();
     }
 
@@ -110,7 +113,12 @@ public class MeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("lifecycle", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+        avatarDraweeView=activity.findViewById(R.id.avatarDraweeView);
+        nickNameTextView=activity.findViewById(R.id.nickName);
 
+        Uri uri=Uri.parse("https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIDd1HT30cLyfEkS2iaN115qC44ZREvuFAXSvXO8GbqHjuw6cYIgibO0NZf9sLiclnD7rXFuqcCibd9Gg/132");
+
+        avatarDraweeView.setImageURI(uri);
 
     }
 
