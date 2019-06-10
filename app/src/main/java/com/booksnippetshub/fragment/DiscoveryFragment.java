@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.fragment;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,20 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.booksnippetshub.R;
 
-public class NotificationFragment extends Fragment {
+
+public class DiscoveryFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
 
-
-    public NotificationFragment() {
+    public DiscoveryFragment() {
     }
 
-    public static NotificationFragment newInstance(String param1, String param2) {
-        NotificationFragment fragment = new NotificationFragment();
+    public static DiscoveryFragment newInstance(String param1, String param2) {
+        DiscoveryFragment fragment = new DiscoveryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -41,23 +42,20 @@ public class NotificationFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_notification, container, false);
+        return inflater.inflate(R.layout.fragment_discovery, container, false);
     }
 
     public void onButtonPressed(Uri uri) {
-
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
 
