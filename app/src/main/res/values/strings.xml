@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">醉书摘</string>
+
+    <string name="tabbar_discovery">发现</string>
+    <string name="tabbar_collection">收集</string>
+    <string name="tabbar_notification">通知</string>
+    <string name="tabbar_me">我</string>
+
+
+</resources>
