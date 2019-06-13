@@ -47,6 +47,7 @@ public class MeFragment extends Fragment {
     private String mParam2;
 
     public MeFragment() {
+        this.setArguments(new Bundle());
 
     }
 

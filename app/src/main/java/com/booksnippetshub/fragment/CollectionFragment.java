@@ -21,6 +21,7 @@ public class CollectionFragment extends Fragment {
 
 
     public CollectionFragment() {
+        this.setArguments(new Bundle());
     }
 
     public static CollectionFragment newInstance(String param1, String param2) {

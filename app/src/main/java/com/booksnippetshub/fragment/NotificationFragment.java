@@ -20,6 +20,7 @@ public class NotificationFragment extends Fragment {
 
 
     public NotificationFragment() {
+        this.setArguments(new Bundle());
     }
 
     public static NotificationFragment newInstance(String param1, String param2) {

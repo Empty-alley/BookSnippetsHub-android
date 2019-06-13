@@ -8,4 +8,16 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ljqTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="colorPrimaryDark">#FFD24D</item>
+        <item name="colorAccent">#FFD24D</item>
+        <item name="colorBackgroundFloating">#FFD24D</item>
+        <item name="colorError">#FFD24D</item>
+        <item name="colorControlActivated">#FFD24D</item>
+        <item name="colorControlHighlight">#FFD24D</item>
+        <item name="colorSwitchThumbNormal">#FFD24D</item>
+
+
+    </style>
+
 </resources>

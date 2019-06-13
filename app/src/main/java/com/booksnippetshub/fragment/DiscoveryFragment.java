@@ -19,7 +19,10 @@ public class DiscoveryFragment extends Fragment {
     private String mParam2;
 
     public DiscoveryFragment() {
+        this.setArguments(new Bundle());
     }
+
+
 
     public static DiscoveryFragment newInstance(String param1, String param2) {
         DiscoveryFragment fragment = new DiscoveryFragment();
