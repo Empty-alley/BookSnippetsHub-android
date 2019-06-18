@@ -29,7 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText nicknameinput;
     EditText passwordinput;
 
-    SharedPreferences sharedPreferences;
 
     Intent toMain;
 
@@ -46,8 +45,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
-        String nickSaved = sharedPreferences.getString("nickname", "");
+
+        String nickSaved = CONFIG.accountSharedPreferences.getString("nickname", "");
 
         toMain = new Intent(this, MainActivity.class);
 
@@ -119,8 +118,12 @@ public class LoginActivity extends AppCompatActivity {
                 JSONObject responejson = JSONObject.parseObject(responsestring);
                 if (responejson.getInteger("errcode") == 0) {
 
-                    sharedPreferences.edit().putString("token", responejson.getString("token")).apply();
-                    sharedPreferences.edit().putString("nickname", nickname).apply();
+                    CONFIG.accountSharedPreferences.edit().putString("token", responejson.getString("token")).apply();
+                    CONFIG.token=responejson.getString("token");
+
+                    Log.d("token", responejson.getString("token"));
+                    CONFIG.accountSharedPreferences.edit().putString("nickname", nickname).apply();
+
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

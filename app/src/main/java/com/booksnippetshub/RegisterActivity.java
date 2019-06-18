@@ -3,8 +3,10 @@ package com.booksnippetshub;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText passwordreginput;
     EditText repeatpasswordreginput;
 
-    SharedPreferences sharedPreferences;
+
     Intent toMain;
 
     AlertDialog.Builder alertDialogBuilder;
@@ -39,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        sharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         toMain = new Intent(this, MainActivity.class);
 
         registerbtn = findViewById(R.id.registerbtn);
@@ -99,9 +100,10 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             String token = responejson.getString("token");
+                            CONFIG.token = token;
 
-                            sharedPreferences.edit().putString("token", token).apply();
-                            sharedPreferences.edit().putString("token", nickname).apply();
+                            CONFIG.accountSharedPreferences.edit().putString("token", token).apply();
+                            CONFIG.accountSharedPreferences.edit().putString("token", nickname).apply();
 
                             alertDialogBuilder.setMessage("注册成功");
                             alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {

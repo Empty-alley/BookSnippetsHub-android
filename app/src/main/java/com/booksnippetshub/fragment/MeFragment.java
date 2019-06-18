@@ -3,20 +3,36 @@ package com.booksnippetshub.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.AuthorizationHeaderInterceptor;
+import com.booksnippetshub.CONFIG;
 import com.booksnippetshub.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
+
 public class MeFragment extends Fragment {
+
+    OkHttpClient okHttpClient;
 
     private TextView nickNameTextView;
     private AppCompatActivity activity;
@@ -27,8 +43,6 @@ public class MeFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
 
-    private String mParam1;
-
     @Override
     public void onPause() {
         super.onPause();
@@ -38,10 +52,10 @@ public class MeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
         Log.d("lifecycle", "onResume");
     }
 
-    private String mParam2;
 
     public MeFragment() {
         this.setArguments(new Bundle());
@@ -70,8 +84,7 @@ public class MeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d("lifecycle", "onCreate");
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -91,7 +104,7 @@ public class MeFragment extends Fragment {
     public void onAttach(Context context) {
         Log.d("lifecycle", "onAttach ");
         super.onAttach(context);
-        this.activity= (AppCompatActivity) getActivity();
+        this.activity = (AppCompatActivity) getActivity();
     }
 
     @Override
@@ -111,14 +124,41 @@ public class MeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("lifecycle", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
-        avatarDraweeView=activity.findViewById(R.id.avatarDraweeView);
-        nickNameTextView=activity.findViewById(R.id.nickName);
-
-        Uri uri=Uri.parse("https://wx.qlogo.cn/mmopen/vi_32/Q0j4TwGTfTIDd1HT30cLyfEkS2iaN115qC44ZREvuFAXSvXO8GbqHjuw6cYIgibO0NZf9sLiclnD7rXFuqcCibd9Gg/132");
-
-        avatarDraweeView.setImageURI(uri);
+        setUserInfo();
 
     }
 
+    private void setUserInfo() {
+        avatarDraweeView = activity.findViewById(R.id.avatarDraweeView);
+        nickNameTextView = activity.findViewById(R.id.nickName);
 
+        okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+
+        Request request = new Request.Builder().url(CONFIG.baseUrl + "/getuserinfo").build();
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                JSONObject responejson = JSONObject.parseObject(response.body().string());
+                String nickname = responejson.getString("nickname");
+                String avatarUrl = responejson.getString("avatarUrl");
+
+                if (avatarUrl.startsWith("/")) {
+                    avatarUrl = CONFIG.baseUrl + avatarUrl;
+                }
+                Uri avataruri = Uri.parse(avatarUrl);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        avatarDraweeView.setImageURI(avataruri);
+                        nickNameTextView.setText(nickname);
+                    }
+                });
+            }
+        });
+    }
 }

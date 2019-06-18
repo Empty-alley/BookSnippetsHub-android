@@ -90,9 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("MainActivity:", "MainActivity onCreate");
 
-//        if(isFirstStart==true){
         Fresco.initialize(this);
-//        }
 
 
         super.onCreate(savedInstanceState);
