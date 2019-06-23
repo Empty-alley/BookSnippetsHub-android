@@ -124,17 +124,26 @@ public class MeFragment extends Fragment {
 
     }
 
+
+    private void addMenuItem() {
+        //添加菜单项
+        MenuItemContainer setting = new MenuItemContainer(getActivity());
+        setting.setDetails(R.drawable.in, "设置");
+        menu_item_container.addView(setting);
+
+        MenuItemContainer about = new MenuItemContainer(getActivity());
+        about.setDetails(R.drawable.in, "关于软件");
+        menu_item_container.addView(about);
+
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("lifecycle", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         menu_item_container = activity.findViewById(R.id.menu_item_container);
 
-        //添加菜单项
-        MenuItemContainer a = new MenuItemContainer(getActivity());
-        a.setDetails(R.drawable.in, "设置");
-        menu_item_container.addView(a);
-
+        addMenuItem();
         setUserInfo();
 
     }
