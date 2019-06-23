@@ -12,11 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.MenuItemContainer;
 import com.booksnippetshub.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -33,6 +35,8 @@ import okhttp3.Response;
 public class MeFragment extends Fragment {
 
     OkHttpClient okHttpClient;
+
+    private LinearLayout menu_item_container;
 
     private TextView nickNameTextView;
     private AppCompatActivity activity;
@@ -124,6 +128,13 @@ public class MeFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d("lifecycle", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
+        menu_item_container = activity.findViewById(R.id.menu_item_container);
+
+        //添加菜单项
+        MenuItemContainer a = new MenuItemContainer(getActivity());
+        a.setDetails(R.drawable.in, "设置");
+        menu_item_container.addView(a);
+
         setUserInfo();
 
     }
