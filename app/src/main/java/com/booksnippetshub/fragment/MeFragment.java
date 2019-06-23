@@ -44,6 +44,9 @@ public class MeFragment extends Fragment {
     private AppCompatActivity activity;
     private SimpleDraweeView avatarDraweeView;
 
+    private TextView feedcount;
+    private TextView followercount;
+    private TextView followcount;
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -144,6 +147,10 @@ public class MeFragment extends Fragment {
         Log.d("lifecycle", "onActivityCreated");
         super.onActivityCreated(savedInstanceState);
         menu_item_container = activity.findViewById(R.id.menu_item_container);
+
+        feedcount = activity.findViewById(R.id.feedcount);
+        followcount = activity.findViewById(R.id.followcount);
+        followercount = activity.findViewById(R.id.followercount);
 
         addMenuItem();
         setUserInfo();
