@@ -158,10 +158,18 @@ public class MeFragment extends Fragment {
                 String nickname = responejson.getString("nickname");
                 String avatarUrl = responejson.getString("avatarUrl");
 
-                if (avatarUrl.startsWith("/")) {
-                    avatarUrl = CONFIG.baseUrl + avatarUrl;
+
+                Uri avataruri;
+                if (avatarUrl != null) {
+                    if (avatarUrl.startsWith("/")) {
+                        avatarUrl = CONFIG.baseUrl + avatarUrl;
+                    }
+                } else {
+                    avatarUrl = "";
                 }
-                Uri avataruri = Uri.parse(avatarUrl);
+
+                avataruri = Uri.parse(avatarUrl);
+
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
