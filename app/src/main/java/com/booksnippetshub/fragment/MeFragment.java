@@ -16,10 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.AboutActivity;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
 import com.booksnippetshub.MenuItemContainer;
 import com.booksnippetshub.R;
+import com.booksnippetshub.SettingActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
@@ -128,11 +130,11 @@ public class MeFragment extends Fragment {
     private void addMenuItem() {
         //添加菜单项
         MenuItemContainer setting = new MenuItemContainer(getActivity());
-        setting.setDetails(R.drawable.in, "设置");
+        setting.setDetails(R.drawable.in, "设置", SettingActivity.class);
         menu_item_container.addView(setting);
 
         MenuItemContainer about = new MenuItemContainer(getActivity());
-        about.setDetails(R.drawable.in, "关于软件");
+        about.setDetails(R.drawable.in, "关于软件", AboutActivity.class);
         menu_item_container.addView(about);
 
     }

@@ -16,34 +16,22 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
-
-        getSupportActionBar().hide();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         CONFIG.accountSharedPreferences = getSharedPreferences("account", MODE_PRIVATE);
         CONFIG.settingSharedPreferences = getSharedPreferences("setting", MODE_PRIVATE);
 
         CONFIG.token = CONFIG.accountSharedPreferences.getString("token", "");
 
-    }
-
-    private void toLoginOrMain() {
-        if (CONFIG.accountSharedPreferences.getString("token", "").length() != 0) {
-            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-        } else {
-            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
+        getSupportActionBar().hide();
         boolean showsplash = CONFIG.settingSharedPreferences.getBoolean("showsplash", true);
         if (showsplash == false) {
             toLoginOrMain();
         } else {
+
+            setContentView(R.layout.activity_splash);
+
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -62,6 +50,17 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }).start();
         }
+
     }
+
+    private void toLoginOrMain() {
+        if (CONFIG.accountSharedPreferences.getString("token", "").length() != 0) {
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+        } else {
+            startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+        }
+    }
+
+
 
 }
