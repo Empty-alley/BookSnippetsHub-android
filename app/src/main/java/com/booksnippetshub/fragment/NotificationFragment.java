@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
 
+import com.booksnippetshub.FeedAdapter;
+import com.booksnippetshub.NotifationAdapter;
 import com.booksnippetshub.R;
 import com.booksnippetshub.model.FeedModel;
 import com.booksnippetshub.model.NotifationModel;
@@ -90,13 +93,8 @@ public class NotificationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
-        JSONObject requstbody=new JSONObject();
-        requstbody.put("getnotification",new JSONArray());
 
-
-
-
-        Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"),requstbody.toJSONString())).url(CONFIG.baseUrl + "/getnotification").build();
+        Request request = new Request.Builder().url(CONFIG.baseUrl + "/getnotification").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -109,14 +107,16 @@ public class NotificationFragment extends Fragment {
                 for(int i=0;i<responsearray.size();i++) {
                     JSONObject notifationjson = responsearray.getJSONObject(i);
 
-
                     NotifationModel notifationModel=notifationjson.toJavaObject(NotifationModel.class);
                     notifationModels.add(notifationModel);
                 }
+                getActivity().runOnUiThread(()->{
+                    NotifationAdapter notifationAdapter = new NotifationAdapter(notifationModels);
+                    notifationAdapter.setContext(getContext());
+                    notificationlist.setAdapter(notifationAdapter);
+                });
             }
         });
-
-
     }
 
     @Override

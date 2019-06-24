@@ -95,9 +95,6 @@ public class DiscoveryFragment extends Fragment {
         JSONObject requstbody=new JSONObject();
         requstbody.put("allrecommendfeedsid",new JSONArray());
 
-
-
-
         Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"),requstbody.toJSONString())).url(CONFIG.baseUrl + "/getrecommendfeed").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -118,6 +115,7 @@ public class DiscoveryFragment extends Fragment {
 
                 getActivity().runOnUiThread(()->{
                     FeedAdapter feedAdapter = new FeedAdapter(feedModels);
+                    feedAdapter.setContext(getContext());
                     discoveryfeedlist.setAdapter(feedAdapter);
                 });
             }

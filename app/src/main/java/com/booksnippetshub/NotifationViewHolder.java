@@ -22,7 +22,7 @@ public class NotifationViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
 
         avatar = itemView.findViewById(R.id.avatarview);
-        nickname = itemView.findViewById(R.id.nickName);
+        nickname = itemView.findViewById(R.id.nickname);
         commit = itemView.findViewById(R.id.commit);
 
     }

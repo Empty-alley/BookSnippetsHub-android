@@ -1,5 +1,7 @@
 package com.booksnippetshub;
 
+import android.app.Activity;
+import android.content.Context;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -12,6 +14,58 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class FeedViewHolder extends RecyclerView.ViewHolder {
 
+
+    private int id;
+    private int userid;
+    private boolean isfollow;
+
+    boolean isliked;
+
+    int likecount;
+    int commentcount;
+
+    public boolean isIsliked() {
+        return isliked;
+    }
+
+    public void setIsliked(boolean isliked) {
+        this.isliked = isliked;
+    }
+
+    public int getLikecount() {
+        return likecount;
+    }
+
+    public void setLikecount(int likecount) {
+        this.likecount = likecount;
+    }
+
+    public int getCommentcount() {
+        return commentcount;
+    }
+
+    public void setCommentcount(int commentcount) {
+        this.commentcount = commentcount;
+    }
+
+    public boolean isIsfollow() {
+        return isfollow;
+    }
+
+    public void setIsfollow(boolean isfollow) {
+        this.isfollow = isfollow;
+    }
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
+    private Context context;
+
     Button likebtn;
     Button commentbtn;
     Button orwardbtn;
@@ -22,6 +76,9 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     TextView nicknametext;
     TextView datetext;
 
+    TextView feedlikecount;
+    TextView feedpingluncount;
+
     SimpleDraweeView avatar;
 
     LinearLayout feedcontentlayout;
@@ -29,6 +86,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     public FeedViewHolder(@NonNull View itemView) {
         super(itemView);
 
+        feedlikecount=itemView.findViewById(R.id.feedlikecount);
+        feedpingluncount=itemView.findViewById(R.id.feedpingluncount);
         likebtn = itemView.findViewById(R.id.feedbtnlike);
         commentbtn = itemView.findViewById(R.id.feedbtncomment);
         orwardbtn = itemView.findViewById(R.id.feedbtnforward);
@@ -39,6 +98,37 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
         datetext = itemView.findViewById(R.id.feeddate);
         avatar = itemView.findViewById(R.id.feedavatar);
         feedcontentlayout = itemView.findViewById(R.id.feedcontentlayout);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserid() {
+        return userid;
+    }
+
+    public void setUserid(int userid) {
+        this.userid = userid;
+    }
+    public TextView getFeedlikecount() {
+        return feedlikecount;
+    }
+
+    public void setFeedlikecount(TextView feedlikecount) {
+        this.feedlikecount = feedlikecount;
+    }
+
+    public TextView getFeedpingluncount() {
+        return feedpingluncount;
+    }
+
+    public void setFeedpingluncount(TextView feedpingluncount) {
+        this.feedpingluncount = feedpingluncount;
     }
 
     public Button getLikebtn() {

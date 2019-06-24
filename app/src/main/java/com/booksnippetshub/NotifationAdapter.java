@@ -1,5 +1,6 @@
 package com.booksnippetshub;
 
+import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,19 @@ import java.util.List;
 public class NotifationAdapter extends RecyclerView.Adapter<NotifationViewHolder> {
     List<NotifationModel> NotifationModels;
 
+    Context context;
+
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
+
     public NotifationAdapter(List<NotifationModel> NotifationModels) {
         this.NotifationModels = NotifationModels;
     }
-
 
 
 
@@ -33,14 +43,15 @@ public class NotifationAdapter extends RecyclerView.Adapter<NotifationViewHolder
     @Override
     public void onBindViewHolder(@NonNull NotifationViewHolder holder, int position) {
         NotifationModel notifationModel = NotifationModels.get(position);
+
         holder.getNickname().setText(notifationModel.getFromnickname());
         holder.getCommit().setText(notifationModel.getMsg());
-        holder.getAvatar().setImageURI(Uri.parse(notifationModel.getFromavatarurl()));
+        holder.getAvatar().setImageURI(Uri.parse(CONFIG.baseUrl+notifationModel.getFromavatarurl()));
 
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return NotifationModels.size();
     }
 }
