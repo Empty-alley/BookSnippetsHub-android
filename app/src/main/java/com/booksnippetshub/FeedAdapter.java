@@ -1,5 +1,6 @@
 package com.booksnippetshub;
 
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull FeedViewHolder holder, int position) {
         FeedModel feedModel = feedModels.get(position);
+
+        holder.getNicknametext().setText(feedModel.getNickname());
+        holder.getDatetext().setText(feedModel.getTime());
+        holder.getAvatar().setImageURI(Uri.parse(feedModel.getAvatarUrl()));
+        holder.getFeedcontenttext().setText(feedModel.getBookcontent());
+        holder.getFeedcommenttext().setText(feedModel.getBookcomment());
     }
 
     @Override

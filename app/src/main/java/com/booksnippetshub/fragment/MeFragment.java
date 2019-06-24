@@ -48,8 +48,6 @@ public class MeFragment extends Fragment {
     private TextView followercount;
     private TextView followcount;
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
 
     @Override
@@ -82,8 +80,7 @@ public class MeFragment extends Fragment {
     public static MeFragment newInstance(String param1, String param2) {
         MeFragment fragment = new MeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
