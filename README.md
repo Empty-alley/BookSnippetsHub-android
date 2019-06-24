@@ -1,1 +1,1 @@
-# BookSnippetsHub-android-tets
+# BookSnippetsHub-android
