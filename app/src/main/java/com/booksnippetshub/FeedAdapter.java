@@ -2,6 +2,7 @@ package com.booksnippetshub;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,16 +93,58 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
         }
 
         holder.getLikebtn().setOnClickListener((View v) -> {
-            if (holder.isIsliked()) {
-                Log.d("Feed", "now like");
-                Log.d("Feed", holder.getFeedlikecount().getText().toString());
 
+            JSONObject likedislikerequestjson = new JSONObject();
+            likedislikerequestjson.put("feedid", holder.getId());
+
+            if (holder.isIsliked()) {
+                Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), likedislikerequestjson.toJSONString())).url(CONFIG.baseUrl + "/dislikefeed").build();
+
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String responestring = response.body().string();
+
+                        JSONObject responsejson = JSONObject.parseObject(responestring);
+                        if (responsejson.getBoolean("isok") == true) {
+                            ((Activity) holder.getContext()).runOnUiThread(() -> {
+                                        holder.getLikebtn().setBackgroundResource(R.drawable.like);
+
+
+                                    }
+                            );
+                        }
+                    }
+                });
                 holder.getLikebtn().setText("N");
                 holder.getFeedlikecount().setText(String.valueOf(Integer.valueOf(holder.getFeedlikecount().getText().toString()) - 1));
             } else {
-                Log.d("Feed", "now unlike");
-                Log.d("count", holder.getFeedlikecount().getText().toString());
+                Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), likedislikerequestjson.toJSONString())).url(CONFIG.baseUrl + "/likefeed").build();
 
+                okHttpClient.newCall(request).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String responestring = response.body().string();
+                        JSONObject responsejson = JSONObject.parseObject(responestring);
+                        if (responsejson.getBoolean("isok") == true) {
+                            ((Activity) holder.getContext()).runOnUiThread(() -> {
+                                        holder.getLikebtn().setBackgroundResource(R.drawable.likefill);
+
+                                    }
+                            );
+                        }
+                    }
+                });
                 holder.getLikebtn().setText("Y");
                 holder.getFeedlikecount().setText(String.valueOf(Integer.valueOf(holder.getFeedlikecount().getText().toString()) + 1));
             }
@@ -109,7 +152,9 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedViewHolder> {
         });
 
         holder.getCommentbtn().setOnClickListener((View v) -> {
-
+            Intent toCommentActivity=new Intent(getContext(),CommentActivity.class);
+            toCommentActivity.putExtra("feedid",holder.getId());
+            getContext().startActivity(toCommentActivity);
 
         });
 
