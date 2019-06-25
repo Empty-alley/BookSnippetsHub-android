@@ -35,7 +35,7 @@ public class MenuItemContainer extends LinearLayout {
         linearLayout = findViewById(R.id.item);
     }
 
-    public void setDetails(int image, String text, Class<?> cls) {
+    public void setToActivity(int image, String text, Class<?> cls) {
         imageView.setImageResource(image);
         textView.setText(text);
         linearLayout.setOnClickListener((View v) -> {
@@ -45,4 +45,27 @@ public class MenuItemContainer extends LinearLayout {
     }
 
 
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public void setImageView(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+    public TextView getTextView() {
+        return textView;
+    }
+
+    public void setTextView(TextView textView) {
+        this.textView = textView;
+    }
+
+    public LinearLayout getLinearLayout() {
+        return linearLayout;
+    }
+
+    public void setLinearLayout(LinearLayout linearLayout) {
+        this.linearLayout = linearLayout;
+    }
 }

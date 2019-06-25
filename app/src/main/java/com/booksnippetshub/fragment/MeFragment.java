@@ -1,6 +1,7 @@
 package com.booksnippetshub.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.booksnippetshub.AboutActivity;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.LoginActivity;
 import com.booksnippetshub.MenuItemContainer;
 import com.booksnippetshub.R;
 import com.booksnippetshub.SettingActivity;
@@ -47,7 +49,6 @@ public class MeFragment extends Fragment {
     private TextView feedcount;
     private TextView followercount;
     private TextView followcount;
-
 
 
     @Override
@@ -130,13 +131,21 @@ public class MeFragment extends Fragment {
     private void addMenuItem() {
         //添加菜单项
         MenuItemContainer setting = new MenuItemContainer(getActivity());
-        setting.setDetails(R.drawable.in, "设置", SettingActivity.class);
+        setting.setToActivity(R.drawable.in, "设置", SettingActivity.class);
         menu_item_container.addView(setting);
 
         MenuItemContainer about = new MenuItemContainer(getActivity());
-        about.setDetails(R.drawable.in, "关于软件", AboutActivity.class);
+        about.setToActivity(R.drawable.in, "关于软件", AboutActivity.class);
         menu_item_container.addView(about);
 
+        MenuItemContainer exit = new MenuItemContainer(getActivity());
+        exit.getImageView().setImageResource(R.drawable.in);
+        exit.getTextView().setText("退出登录");
+        exit.getLinearLayout().setOnClickListener((View v) -> {
+            CONFIG.accountSharedPreferences.edit().remove("token").apply();
+            startActivity(new Intent(getActivity(), LoginActivity.class));
+        });
+        menu_item_container.addView(exit);
     }
 
     @Override
@@ -151,6 +160,7 @@ public class MeFragment extends Fragment {
 
         addMenuItem();
         setUserInfo();
+        setUserDetails();
 
     }
 
@@ -195,4 +205,41 @@ public class MeFragment extends Fragment {
             }
         });
     }
+
+    private void setUserDetails() {
+
+        feedcount = activity.findViewById(R.id.feedcount);
+        followcount = activity.findViewById(R.id.followcount);
+        followercount = activity.findViewById(R.id.followercount);
+
+        okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+
+        Request request = new Request.Builder().url(CONFIG.baseUrl + "/me").build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                JSONObject responejson = JSONObject.parseObject(response.body().string());
+                if (responejson.getInteger("errcode") == 0) {
+                    String feedcountstring = responejson.getString("feed");
+                    String followcountstring = responejson.getString("followcount");
+                    String followercountstring = responejson.getString("followerscount");
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            feedcount.setText(feedcountstring);
+                            followcount.setText(followcountstring);
+                            followercount.setText(followercountstring);
+                        }
+                    });
+                }
+            }
+        });
+
+    }
+
 }
