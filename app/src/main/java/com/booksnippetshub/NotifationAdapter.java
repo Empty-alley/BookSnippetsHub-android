@@ -48,6 +48,7 @@ public class NotifationAdapter extends RecyclerView.Adapter<NotifationViewHolder
         holder.getCommit().setText(notifationModel.getMsg());
         holder.getAvatar().setImageURI(Uri.parse(CONFIG.baseUrl+notifationModel.getFromavatarurl()));
 
+
     }
 
     @Override

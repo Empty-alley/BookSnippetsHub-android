@@ -24,8 +24,11 @@ public class NotifationViewHolder extends RecyclerView.ViewHolder {
         avatar = itemView.findViewById(R.id.avatarview);
         nickname = itemView.findViewById(R.id.nickname);
         commit = itemView.findViewById(R.id.commit);
+        linearLayout = itemView.findViewById(R.id.fengexian);
 
     }
+
+
 
     public SimpleDraweeView getAvatar() {
         return avatar;
