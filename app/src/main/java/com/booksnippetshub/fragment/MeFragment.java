@@ -1,10 +1,15 @@
 package com.booksnippetshub.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.booksnippetshub.AboutActivity;
@@ -24,19 +30,31 @@ import com.booksnippetshub.LoginActivity;
 import com.booksnippetshub.MenuItemContainer;
 import com.booksnippetshub.R;
 import com.booksnippetshub.SettingActivity;
+import com.booksnippetshub.utils.UriToByteArray;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
+import okhttp3.internal.Util;
 
 
 public class MeFragment extends Fragment {
+    private static final int CHOOSE_IMG = 2;
 
     OkHttpClient okHttpClient;
 
@@ -161,6 +179,62 @@ public class MeFragment extends Fragment {
         addMenuItem();
         setUserInfo();
         setUserDetails();
+        setAvatarImgListener();
+    }
+
+    private void setAvatarImgListener() {
+        avatarDraweeView.setOnClickListener((View v) -> {
+            Log.d("avatarDraweeView", "setOnClickListener");
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(Intent.ACTION_PICK);
+                    intent.setType("image/*");
+                    startActivityForResult(intent, this.CHOOSE_IMG);
+
+                } else {
+
+                    getActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CONFIG.REQUEST_WRITE_EXTERNAL_STORAGE);
+                }
+            }
+        });
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == this.CHOOSE_IMG) {
+
+            RequestBody image = RequestBody.create(null, UriToByteArray.to(data.getData(),getActivity()));
+
+            RequestBody requestBody = new MultipartBody.Builder()
+                    .setType(MultipartBody.FORM)
+                    .addFormDataPart("file", "avatarimg", image)
+                    .build();
+
+            Request request = new Request.Builder().post(requestBody).url(CONFIG.baseUrl + "/setavatar").build();
+
+            OkHttpClient ac = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+            ac.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                    int adsf = 12;
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+
+                    String responsestring = response.body().string();
+                    Log.d("responsestring", responsestring);
+                    int a = 12;
+
+                }
+            });
+
+        }
+
 
     }
 

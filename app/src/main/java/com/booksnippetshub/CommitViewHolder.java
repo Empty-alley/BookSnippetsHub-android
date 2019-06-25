@@ -17,8 +17,6 @@ public class CommitViewHolder extends RecyclerView.ViewHolder {
 
     public CommitViewHolder(@NonNull View itemView) {
         super(itemView);
-        historyview = itemView.findViewById(R.id.historyview);
-
 
     }
 

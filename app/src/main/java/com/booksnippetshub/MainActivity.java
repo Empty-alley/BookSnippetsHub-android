@@ -1,7 +1,10 @@
 package com.booksnippetshub;
 
+import android.content.Intent;
 import android.os.Bundle;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -83,6 +86,18 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == 1) {
+
+
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
