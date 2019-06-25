@@ -104,7 +104,6 @@ public class DiscoveryFragment extends Fragment {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-
                 JSONArray responsearray = JSONArray.parseArray(response.body().string());
                 for(int i=0;i<responsearray.size();i++){
                     JSONObject feedjson=responsearray.getJSONObject(i);

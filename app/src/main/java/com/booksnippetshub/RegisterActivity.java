@@ -103,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                             CONFIG.token = token;
 
                             CONFIG.accountSharedPreferences.edit().putString("token", token).apply();
-                            CONFIG.accountSharedPreferences.edit().putString("token", nickname).apply();
+                            CONFIG.accountSharedPreferences.edit().putString("nickname", nickname).apply();
 
                             alertDialogBuilder.setMessage("注册成功");
                             alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {

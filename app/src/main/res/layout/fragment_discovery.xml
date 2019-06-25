@@ -6,11 +6,6 @@
     tools:context=".fragment.DiscoveryFragment">
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="asdfgadsf"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
