@@ -68,7 +68,7 @@ public class DiscoveryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_discovery, container, false);
+        View view = inflater.inflate(R.layout.fragment_discovery_release, container, false);
 
         return view;
     }
