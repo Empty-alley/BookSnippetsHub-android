@@ -13,7 +13,7 @@ import com.booksnippetshub.model.NotifationModel;
 
 import java.util.List;
 
-public class CommitAdapter extends RecyclerView.Adapter<NotifationViewHolder> {
+public class NotifationAdapter extends RecyclerView.Adapter<NotifationViewHolder> {
     List<NotifationModel> NotifationModels;
 
     Context context;
@@ -26,7 +26,7 @@ public class CommitAdapter extends RecyclerView.Adapter<NotifationViewHolder> {
         this.context = context;
     }
 
-    public CommitAdapter(List<NotifationModel> NotifationModels) {
+    public NotifationAdapter(List<NotifationModel> NotifationModels) {
         this.NotifationModels = NotifationModels;
     }
 
