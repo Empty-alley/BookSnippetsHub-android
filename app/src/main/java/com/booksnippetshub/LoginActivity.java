@@ -2,8 +2,10 @@ package com.booksnippetshub;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
+        setTitle("登录");
         String nickSaved = CONFIG.accountSharedPreferences.getString("nickname", "");
 
         toMain = new Intent(this, MainActivity.class);
@@ -119,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (responejson.getInteger("errcode") == 0) {
 
                     CONFIG.accountSharedPreferences.edit().putString("token", responejson.getString("token")).apply();
-                    CONFIG.token=responejson.getString("token");
+                    CONFIG.token = responejson.getString("token");
 
                     Log.d("token", responejson.getString("token"));
                     CONFIG.accountSharedPreferences.edit().putString("nickname", nickname).apply();

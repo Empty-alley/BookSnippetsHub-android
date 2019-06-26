@@ -2,7 +2,6 @@ package com.booksnippetshub;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText repeatpasswordreginput;
 
 
-    Intent toMain;
+    Intent toChangeAvatarActivity;
 
     AlertDialog.Builder alertDialogBuilder;
 
@@ -41,7 +40,9 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        toMain = new Intent(this, MainActivity.class);
+        setTitle("注册");
+
+        toChangeAvatarActivity = new Intent(this, ChangeAvatarActivity.class);
 
         registerbtn = findViewById(R.id.registerbtn);
         nicknamereginput = findViewById(R.id.nicknamereginput);
@@ -112,7 +113,7 @@ public class RegisterActivity extends AppCompatActivity {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            startActivity(toMain);
+                                            startActivity(toChangeAvatarActivity);
                                         }
                                     });
                                 }

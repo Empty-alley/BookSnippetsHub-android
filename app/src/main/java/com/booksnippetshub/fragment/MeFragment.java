@@ -218,6 +218,8 @@ public class MeFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (data == null) return;
+
         if (requestCode == this.CHANGE_AVATAR) {
             RequestBody image = RequestBody.create(null, UriToByteArray.to(data.getData(), getActivity()));
 
