@@ -1,6 +1,7 @@
 package com.booksnippetshub.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -15,11 +16,14 @@ import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.AboutActivity;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
 import com.booksnippetshub.FeedAdapter;
 import com.booksnippetshub.R;
+import com.booksnippetshub.RealseActivity;
 import com.booksnippetshub.model.FeedModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,13 +66,15 @@ public class DiscoveryFragment extends Fragment {
         if (getArguments() != null) {
 
         }
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_discovery, container, false);
+        View view = inflater.inflate(R.layout.fragment_discovery_release, container, false);
 
         return view;
     }
@@ -77,9 +83,19 @@ public class DiscoveryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         discoveryfeedlist = getActivity().findViewById(R.id.discoveryfeedlist);
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         discoveryfeedlist.setLayoutManager(linearLayoutManager);
+        FloatingActionButton discoveryreleasea = getActivity().findViewById(R.id.discoveryrelease);
+        discoveryreleasea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent toRealseActivity =  new Intent(getActivity(), RealseActivity.class);
+                getActivity().startActivity(toRealseActivity);
+            }
+        });
+
+
+
     }
 
 
