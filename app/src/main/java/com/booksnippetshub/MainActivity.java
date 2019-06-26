@@ -1,7 +1,10 @@
 package com.booksnippetshub;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.Nullable;
@@ -10,8 +13,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
+
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.booksnippetshub.fragment.CollectionFragment;
 import com.booksnippetshub.fragment.DiscoveryFragment;
@@ -19,6 +24,7 @@ import com.booksnippetshub.fragment.MeFragment;
 import com.booksnippetshub.fragment.NotificationFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
+import java.security.Permission;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (currentFragment != fragment) {
             FragmentManager fragmentManager = getSupportFragmentManager();
-            List<Fragment> fragments=fragmentManager.getFragments();
+            List<Fragment> fragments = fragmentManager.getFragments();
             FragmentTransaction transaction = fragmentManager.beginTransaction();
             if (fragment.isAdded()) {
                 transaction.hide(currentFragment);
@@ -86,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
     };
-
 
 
     @Override

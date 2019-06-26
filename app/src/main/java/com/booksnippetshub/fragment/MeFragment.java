@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -34,27 +33,20 @@ import com.booksnippetshub.utils.UriToByteArray;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.internal.Util;
 
 
 public class MeFragment extends Fragment {
-    private static final int CHOOSE_IMG = 2;
+    private static final int CHANGE_AVATAR = 2;
+    public static final int REQUEST_CHANGE_AVATAR = 4;
 
     OkHttpClient okHttpClient;
 
@@ -182,35 +174,56 @@ public class MeFragment extends Fragment {
         setAvatarImgListener();
     }
 
+
+    private void toChangeAvatarActivity() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, this.CHANGE_AVATAR);
+    }
+
     private void setAvatarImgListener() {
         avatarDraweeView.setOnClickListener((View v) -> {
             Log.d("avatarDraweeView", "setOnClickListener");
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(Intent.ACTION_PICK);
-                    intent.setType("image/*");
-                    startActivityForResult(intent, this.CHOOSE_IMG);
+                    toChangeAvatarActivity();
 
                 } else {
-
-                    getActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CONFIG.REQUEST_WRITE_EXTERNAL_STORAGE);
+                    this.requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, this.REQUEST_CHANGE_AVATAR);
                 }
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (requestCode == MeFragment.REQUEST_CHANGE_AVATAR) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    toChangeAvatarActivity();
+
+                } else {
+                    Toast.makeText(getActivity(), "授权被拒绝", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+
     }
 
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == this.CHOOSE_IMG) {
-
-            RequestBody image = RequestBody.create(null, UriToByteArray.to(data.getData(),getActivity()));
+        if (requestCode == this.CHANGE_AVATAR) {
+            RequestBody image = RequestBody.create(null, UriToByteArray.to(data.getData(), getActivity()));
 
             RequestBody requestBody = new MultipartBody.Builder()
                     .setType(MultipartBody.FORM)
-                    .addFormDataPart("file", "avatarimg", image)
+                    .addFormDataPart("file", "avatarimg.jpg", image)
                     .build();
 
             Request request = new Request.Builder().post(requestBody).url(CONFIG.baseUrl + "/setavatar").build();
@@ -227,15 +240,16 @@ public class MeFragment extends Fragment {
                 public void onResponse(Call call, Response response) throws IOException {
 
                     String responsestring = response.body().string();
-                    Log.d("responsestring", responsestring);
-                    int a = 12;
-
+                    JSONObject jsonObject = JSONObject.parseObject(responsestring);
+                    if (jsonObject.getInteger("errcode") == 0) {
+                        getActivity().runOnUiThread(() -> {
+                            avatarDraweeView.setImageURI(Uri.parse(jsonObject.getString("url")));
+                            Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+                        });
+                    }
                 }
             });
-
         }
-
-
     }
 
     private void setUserInfo() {
