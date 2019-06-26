@@ -9,12 +9,13 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.booksnippetshub.model.Comment;
 import com.booksnippetshub.model.NotifationModel;
 
 import java.util.List;
 
-public class NotifationAdapter extends RecyclerView.Adapter<NotifationViewHolder> {
-    List<NotifationModel> NotifationModels;
+public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
+    List<Comment> comments;
 
     Context context;
 
@@ -26,33 +27,33 @@ public class NotifationAdapter extends RecyclerView.Adapter<NotifationViewHolder
         this.context = context;
     }
 
-    public NotifationAdapter(List<NotifationModel> NotifationModels) {
-        this.NotifationModels = NotifationModels;
+    public CommentAdapter(List<Comment> comments) {
+        this.comments = comments;
     }
 
 
 
     @NonNull
     @Override
-    public NotifationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.noticationview, parent, false);
-        NotifationViewHolder holder = new NotifationViewHolder(view);
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.commentview, parent, false);
+        CommentViewHolder holder = new CommentViewHolder(view);
         return holder;
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull NotifationViewHolder holder, int position) {
-        NotifationModel notifationModel = NotifationModels.get(position);
 
-        holder.getNickname().setText(notifationModel.getFromnickname());
-        holder.getCommit().setText(notifationModel.getMsg());
-        holder.getAvatar().setImageURI(Uri.parse(CONFIG.baseUrl+notifationModel.getFromavatarurl()));
+    @Override
+    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+        Comment comment = comments.get(position);
+
+        holder.getNickname().setText(comment.getNickname());
+        holder.getCommit().setText(comment.getComment());
+        holder.getAvatar().setImageURI(Uri.parse(comment.getAvatarUrl()));
 
 
     }
-
     @Override
     public int getItemCount() {
-        return NotifationModels.size();
+        return comments.size();
     }
 }
