@@ -101,6 +101,8 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             holder.setContext(getContext());
 
+
+            holder.getBookname().setText(feedModel.getBookname());
             holder.getNicknametext().setText(feedModel.getNickname());
             holder.getDatetext().setText(feedModel.getTime());
             holder.getAvatar().setImageURI(Uri.parse(feedModel.getAvatarUrl()));
@@ -126,6 +128,16 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 holder.getLikebtn().setText("N");
                 holder.getLikebtn().setBackgroundResource(R.drawable.like);
             }
+
+            holder.getBookname().setOnClickListener((View v) -> {
+                Intent toBook = new Intent(getContext(), BookActivity.class);
+                int bookid = feedModel.getBookid();
+                toBook.putExtra("bookid", bookid);
+                toBook.putExtra("bookname", feedModel.getBookname());
+                getContext().startActivity(toBook);
+
+            });
+
 
             holder.getLikebtn().setOnClickListener((View v) -> {
 

@@ -25,6 +25,7 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".CommentActivity" />
         <activity android:name=".ChangeAvatarActivity" />
+        <activity android:name=".BookActivity" />
         <activity android:name=".RealseActivity" />
 
         <activity

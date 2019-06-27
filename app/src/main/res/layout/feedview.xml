@@ -28,16 +28,16 @@
                     android:id="@+id/feedavatar"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    app:roundedCornerRadius="45dp"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_marginLeft="10dp" />
+                    android:layout_marginLeft="10dp"
+                    app:roundedCornerRadius="45dp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="9"
                 android:orientation="vertical">
 
@@ -81,30 +81,63 @@
         android:layout_height="200dp"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="「"
+                android:textColor="#000000"
+                android:textSize="17dp" />
+
+            <TextView
+                android:id="@+id/bookname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:text="BookName"
+                android:textColor="#000000"
+                android:textSize="18dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="」"
+                android:textColor="#000000"
+                android:textSize="17dp" />
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15dp"
             android:layout_marginLeft="10dp"
-            android:text='"' />
+            android:text='"'
+            android:textSize="15dp" />
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="#000000"
-            android:textSize="15dp"
             android:id="@+id/feedcontent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:text="TextView"
+            android:textColor="#000000"
+            android:textSize="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:textSize="15dp"
             android:layout_marginRight="20dp"
-            android:text='"' />
+            android:text='"'
+            android:textSize="15dp" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -125,9 +158,9 @@
                     android:id="@+id/imageView"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    app:srcCompat="@drawable/dengpao"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_marginEnd="10dp"/>
+                    app:srcCompat="@drawable/dengpao" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -137,15 +170,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:textColor="#000000"
-            android:textSize="15dp"
             android:id="@+id/feedcomment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
             android:text="TextView"
-            android:layout_marginBottom="10dp"/>
+            android:textColor="#000000"
+            android:textSize="15dp" />
 
 
     </LinearLayout>

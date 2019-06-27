@@ -76,6 +76,8 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     TextView nicknametext;
     TextView datetext;
 
+    TextView bookname;
+
     TextView feedlikecount;
     TextView feedpingluncount;
 
@@ -85,9 +87,9 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
 
     public FeedViewHolder(@NonNull View itemView) {
         super(itemView);
-
-        feedlikecount=itemView.findViewById(R.id.feedlikecount);
-        feedpingluncount=itemView.findViewById(R.id.feedpingluncount);
+        bookname = itemView.findViewById(R.id.bookname);
+        feedlikecount = itemView.findViewById(R.id.feedlikecount);
+        feedpingluncount = itemView.findViewById(R.id.feedpingluncount);
         likebtn = itemView.findViewById(R.id.feedbtnlike);
         commentbtn = itemView.findViewById(R.id.feedbtncomment);
         orwardbtn = itemView.findViewById(R.id.feedbtnforward);
@@ -115,6 +117,7 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     public void setUserid(int userid) {
         this.userid = userid;
     }
+
     public TextView getFeedlikecount() {
         return feedlikecount;
     }
@@ -166,6 +169,15 @@ public class FeedViewHolder extends RecyclerView.ViewHolder {
     public SimpleDraweeView getAvatar() {
         return avatar;
     }
+
+    public TextView getBookname() {
+        return bookname;
+    }
+
+    public void setBookname(TextView bookname) {
+        this.bookname = bookname;
+    }
+
 
     public LinearLayout getFeedcontentlayout() {
         return feedcontentlayout;
