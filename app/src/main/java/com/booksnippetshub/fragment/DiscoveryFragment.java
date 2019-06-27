@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,13 +91,85 @@ public class DiscoveryFragment extends Fragment {
         discoveryreleasea.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent toRealseActivity =  new Intent(getActivity(), RealseActivity.class);
+                Intent toRealseActivity = new Intent(getActivity(), RealseActivity.class);
                 getActivity().startActivity(toRealseActivity);
             }
         });
 
 
+        discoveryfeedlist.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            boolean isfirstrun = false;
 
+
+            FeedAdapter feedAdapter = null;
+            LinearLayoutManager layoutManager = null;
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                if (layoutManager == null) {
+                    layoutManager = (LinearLayoutManager) discoveryfeedlist.getLayoutManager();
+                }
+
+                if (feedAdapter == null) {
+                    feedAdapter = (FeedAdapter) discoveryfeedlist.getAdapter();
+                }
+
+
+                if (isfirstrun) {
+                    if (layoutManager.findLastVisibleItemPosition() == discoveryfeedlist.getAdapter().getItemCount()) {
+                        feedAdapter.setDonothavemore(true);
+                    }
+                }
+                isfirstrun = false;
+
+                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+
+                if ((lastVisibleItemPosition >= feedAdapter.getItemCount() - 1) && (feedAdapter.isDonothavemore() == false)) {
+
+                    OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+
+                    JSONObject requstbody = new JSONObject();
+                    requstbody.put("allrecommendfeedsid", feedAdapter.getAllrecommendfeedsid());
+
+                    Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requstbody.toJSONString())).url(CONFIG.baseUrl + "/getrecommendfeed").build();
+                    okHttpClient.newCall(request).enqueue(new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            JSONArray responsearray = JSONArray.parseArray(response.body().string());
+
+                            if (responsearray.size() == 0) {
+                                feedAdapter.setDonothavemore(true);
+                                getActivity().runOnUiThread(() -> {
+                                    feedAdapter.notifyDataSetChanged();
+                                });
+
+                            } else {
+                                List<FeedModel> tempFeedModels = new ArrayList<>();
+
+                                for (int i = 0; i < responsearray.size(); i++) {
+                                    JSONObject feedjson = responsearray.getJSONObject(i);
+                                    FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
+                                    tempFeedModels.add(feedModel);
+                                    feedAdapter.getAllrecommendfeedsid().add(feedModel.getId());
+                                }
+
+                                getActivity().runOnUiThread(() -> {
+                                    feedAdapter.getFeedModels().addAll(tempFeedModels);
+                                    feedAdapter.notifyDataSetChanged();
+
+                                });
+                            }
+                        }
+                    });
+                }
+            }
+        });
     }
 
 
@@ -108,10 +182,10 @@ public class DiscoveryFragment extends Fragment {
 
         okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
 
-        JSONObject requstbody=new JSONObject();
-        requstbody.put("allrecommendfeedsid",new JSONArray());
+        JSONObject requstbody = new JSONObject();
+        requstbody.put("allrecommendfeedsid", new JSONArray());
 
-        Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"),requstbody.toJSONString())).url(CONFIG.baseUrl + "/getrecommendfeed").build();
+        Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requstbody.toJSONString())).url(CONFIG.baseUrl + "/getrecommendfeed").build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -121,14 +195,14 @@ public class DiscoveryFragment extends Fragment {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 JSONArray responsearray = JSONArray.parseArray(response.body().string());
-                for(int i=0;i<responsearray.size();i++){
-                    JSONObject feedjson=responsearray.getJSONObject(i);
+                for (int i = 0; i < responsearray.size(); i++) {
+                    JSONObject feedjson = responsearray.getJSONObject(i);
 
-                    FeedModel feedModel=feedjson.toJavaObject(FeedModel.class);
+                    FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
                     feedModels.add(feedModel);
                 }
 
-                getActivity().runOnUiThread(()->{
+                getActivity().runOnUiThread(() -> {
                     FeedAdapter feedAdapter = new FeedAdapter(feedModels);
                     feedAdapter.setContext(getContext());
                     discoveryfeedlist.setAdapter(feedAdapter);
