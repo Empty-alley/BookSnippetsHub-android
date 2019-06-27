@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/bookname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="all"
+                android:ems="7"
+                android:gravity="center"
+                android:hint="书名"
+                android:includeFontPadding="true"
+                android:inputType="textPersonName"
+                android:lines="1"
+
+
+                />
+
+            <EditText
+                android:id="@+id/bookcontent"
+                android:layout_width="match_parent"
+                android:layout_height="109dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:hint="摘抄"
+                android:inputType="textPersonName"
+                android:maxWidth="50dp"
+
+
+                />
+
+            <EditText
+                android:id="@+id/bookidea"
+                android:layout_width="match_parent"
+                android:layout_height="196dp"
+                android:ellipsize="end"
+                android:ems="20"
+                android:gravity="center"
+                android:hint="想说的话"
+                android:inputType="textPersonName"
+
+
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/dengpao" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_weight="40"
+                android:gravity="left|center"
+                android:text="选择主题"
+                android:textColor="#000000"
+                android:textSize="15dp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/booktheme"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/bookrelease"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="发布" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
