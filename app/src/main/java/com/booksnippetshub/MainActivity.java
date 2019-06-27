@@ -1,13 +1,10 @@
 package com.booksnippetshub;
 
-import android.Manifest;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 
+import com.booksnippetshub.fragment.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,15 +13,12 @@ import androidx.annotation.NonNull;
 
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.booksnippetshub.fragment.CollectionFragment;
-import com.booksnippetshub.fragment.DiscoveryFragment;
 import com.booksnippetshub.fragment.MeFragment;
 import com.booksnippetshub.fragment.NotificationFragment;
 import com.facebook.drawee.backends.pipeline.Fresco;
 
-import java.security.Permission;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isFirstStart = true;
 
     //初始化四个Fragment
-    private DiscoveryFragment discoveryFragment = new DiscoveryFragment();
+
+//    private DiscoveryFragment mainFragment = new DiscoveryFragment();
+    private MainFragment mainFragment = new MainFragment();
     private NotificationFragment notificationFragment = new NotificationFragment();
     private MeFragment meFragment = new MeFragment();
     private CollectionFragment collectionFragment = new CollectionFragment();
@@ -71,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
                 case R.id.navigation_home:
                     setTitle(R.string.tabbar_discovery);
-                    changeFragment(discoveryFragment);
+                    changeFragment(mainFragment);
                     return true;
 
                 case R.id.navigation_collection:
@@ -119,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (currentFragment == null) {
-            changeFragment(discoveryFragment);
+            changeFragment(mainFragment);
         }
 
 
