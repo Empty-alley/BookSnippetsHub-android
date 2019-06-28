@@ -45,7 +45,7 @@ public class CollectionFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_collection, container, false);
+        return inflater.inflate(R.layout.fragment_collectionmainpage, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

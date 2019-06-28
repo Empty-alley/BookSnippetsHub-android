@@ -2,6 +2,7 @@ package com.booksnippetshub;
 
 import android.os.Bundle;
 
+import com.booksnippetshub.fragment.CollectMainFragment;
 import com.booksnippetshub.fragment.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private MainFragment mainFragment = new MainFragment();
     private NotificationFragment notificationFragment = new NotificationFragment();
     private MeFragment meFragment = new MeFragment();
-    private CollectionFragment collectionFragment = new CollectionFragment();
+    private CollectMainFragment collectionFragment = new CollectMainFragment();
 
 
     private void changeFragment(Fragment fragment) {

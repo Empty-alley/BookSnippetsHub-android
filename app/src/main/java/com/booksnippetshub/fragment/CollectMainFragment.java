@@ -1,43 +1,38 @@
 package com.booksnippetshub.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.booksnippetshub.MainFragmentPagerAdapter;
 import com.booksnippetshub.R;
 
 
-public class MainFragment extends Fragment {
+public class CollectMainFragment extends Fragment {
 
     ViewPager viewPager;
     TextView followbtn;
-    TextView recommand;
+    TextView bookstorebtn;
 
-    LinearLayout recommandbottomline;
-    LinearLayout followbottomline;
+    LinearLayout followbookbottomline;
+    LinearLayout bookstorebottomline;
 
 
-    public MainFragment() {
+    public CollectMainFragment() {
         this.setArguments(new Bundle());
     }
 
-    public static MainFragment newInstance(String param1, String param2) {
-        MainFragment fragment = new MainFragment();
+    public static CollectMainFragment newInstance(String param1, String param2) {
+        CollectMainFragment fragment = new CollectMainFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -52,7 +47,7 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_mainpage, container, false);
+        return inflater.inflate(R.layout.fragment_collection, container, false);
 
     }
 
@@ -63,15 +58,15 @@ public class MainFragment extends Fragment {
         viewPager = getActivity().findViewById(R.id.viewpager);
 
         followbtn = getActivity().findViewById(R.id.follow);
-        recommand = getActivity().findViewById(R.id.recommand);
+        bookstorebtn = getActivity().findViewById(R.id.bookstore);
         MainFragmentPagerAdapter mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getChildFragmentManager());
 
-        recommandbottomline = getActivity().findViewById(R.id.recommandbottomline);
-        followbottomline = getActivity().findViewById(R.id.followbottomline);
+        followbookbottomline = getActivity().findViewById(R.id.followbookbottomline);
+        bookstorebottomline = getActivity().findViewById(R.id.bookstorebottomline);
 
 
         mainFragmentPagerAdapter.addFragment(new DiscoveryFragment());
-        mainFragmentPagerAdapter.addFragment(new FollowFeedFragment());
+        mainFragmentPagerAdapter.addFragment(new CollectionFragment());
 
 
         viewPager.setAdapter(mainFragmentPagerAdapter);
@@ -101,7 +96,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        recommand.setOnClickListener((View v) -> {
+        bookstorebtn.setOnClickListener((View v) -> {
             if (viewPager.getCurrentItem() != 0) {
                 viewPager.setCurrentItem(0, true);
                 showRecommandBottomLine();
@@ -131,13 +126,13 @@ public class MainFragment extends Fragment {
 
 
     private void showRecommandBottomLine() {
-        recommandbottomline.setVisibility(View.VISIBLE);
-        followbottomline.setVisibility(View.GONE);
+        followbookbottomline.setVisibility(View.GONE);
+        bookstorebottomline.setVisibility(View.GONE);
     }
 
     private void showFollowBottomLine() {
-        recommandbottomline.setVisibility(View.GONE);
-        followbottomline.setVisibility(View.VISIBLE);
+        followbookbottomline.setVisibility(View.GONE);
+        bookstorebottomline.setVisibility(View.GONE);
     }
 
 }
