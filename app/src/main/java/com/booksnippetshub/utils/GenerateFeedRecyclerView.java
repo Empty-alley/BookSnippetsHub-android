@@ -2,6 +2,7 @@ package com.booksnippetshub.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,16 +32,55 @@ import okhttp3.Response;
 
 public class GenerateFeedRecyclerView {
 
-    public static RecyclerView generate(Activity activity, List<FeedModel> feedModels, boolean doNotRefresh, String url, FeedListRefresh feedListRefresh) {
+    public static RecyclerView generate(Activity activity, int feedviewid, boolean doNotRefresh, String url, FeedListRefresh feedListRefresh) {
 
-
-        RecyclerView discoveryfeedlist = activity.findViewById(R.id.discoveryfeedlist);
+        RecyclerView discoveryfeedlist = activity.findViewById(feedviewid);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
         discoveryfeedlist.setLayoutManager(linearLayoutManager);
 
         discoveryfeedlist.setLayoutManager(linearLayoutManager);
+
+        List<FeedModel> feedModels = new ArrayList<>();
+
+        final boolean[] inited = {false};
+
+        OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+        JSONObject requstbody = new JSONObject();
+        Map<String, Object> requestjson = feedListRefresh.requestParam();
+        for (String s : requestjson.keySet()) {
+            requstbody.put(s, requestjson.get(s));
+        }
+        Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requstbody.toJSONString())).url(CONFIG.baseUrl + url).build();
+
+        okHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+
+                String responestring = response.body().string();
+                feedListRefresh.onRespone(responestring);
+
+                Log.d("eeeee====", responestring);
+                JSONArray responsearray = JSONArray.parseArray(responestring);
+                for (int i = 0; i < responsearray.size(); i++) {
+                    JSONObject feedjson = responsearray.getJSONObject(i);
+
+                    FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
+                    feedModels.add(feedModel);
+                }
+                inited[0] = true;
+
+            }
+        });
+
+
         discoveryfeedlist.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            boolean isfirstrun = false;
+            boolean isfirstrun = true;
 
 
             FeedAdapter feedAdapter = null;
@@ -63,27 +103,20 @@ public class GenerateFeedRecyclerView {
                     if (layoutManager.findLastVisibleItemPosition() == discoveryfeedlist.getAdapter().getItemCount()) {
                         feedAdapter.setDonothavemore(true);
                     }
-                    if (doNotRefresh) {
-                        feedAdapter.setDonothavemore(true);
-                    }
                 }
                 isfirstrun = false;
 
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
 
-                if ((lastVisibleItemPosition >= feedAdapter.getItemCount() - 1) && (feedAdapter.isDonothavemore() == false)) {
+                if ((lastVisibleItemPosition >= feedAdapter.getItemCount() - 1) && (feedAdapter.isDonothavemore() == false) && feedAdapter.isLoadingmore()==false) {
 
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+                    feedAdapter.setLoadingmore(true);
 
                     JSONObject requstbody = new JSONObject();
                     Map<String, Object> requestjson = feedListRefresh.requestParam();
                     for (String s : requestjson.keySet()) {
                         requstbody.put(s, requestjson.get(s));
                     }
-
-
-//                    requstbody.put("allrecommendfeedsid", feedAdapter.getAllrecommendfeedsid());
-
                     Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requstbody.toJSONString())).url(CONFIG.baseUrl + url).build();
                     okHttpClient.newCall(request).enqueue(new Callback() {
                         @Override
@@ -116,7 +149,7 @@ public class GenerateFeedRecyclerView {
                                 activity.runOnUiThread(() -> {
                                     feedAdapter.getFeedModels().addAll(tempFeedModels);
                                     feedAdapter.notifyDataSetChanged();
-
+                                    feedAdapter.setLoadingmore(false);
                                 });
                             }
                         }
@@ -129,6 +162,18 @@ public class GenerateFeedRecyclerView {
         feedAdapter.setContext(activity);
 
         discoveryfeedlist.setAdapter(feedAdapter);
+
+        if (doNotRefresh) {
+            feedAdapter.setDonothavemore(true);
+        }
+
+        while (inited[0] == false) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
         return discoveryfeedlist;
     }
 

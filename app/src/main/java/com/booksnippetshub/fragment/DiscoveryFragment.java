@@ -52,7 +52,6 @@ public class DiscoveryFragment extends Fragment {
 
     RecyclerView discoveryfeedlist;
 
-    OkHttpClient okHttpClient;
 
     public DiscoveryFragment() {
         this.setArguments(new Bundle());
@@ -90,6 +89,37 @@ public class DiscoveryFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        FeedListRefresh feedListRefresh = new FeedListRefresh() {
+
+
+            JSONArray allrecommendfeedsid = new JSONArray();
+            HashMap<String, Object> requestparam = new HashMap();
+
+
+            @Override
+            public Map<String, Object> requestParam() {
+                if (!requestparam.containsKey("allrecommendfeedsid")) {
+                    requestparam.put("allrecommendfeedsid", allrecommendfeedsid);
+                }
+                return requestparam;
+            }
+
+            @Override
+            public void onRespone(String responseString) {
+                JSONArray responsearray = JSONArray.parseArray(responseString);
+
+                for (int i = 0; i < responsearray.size(); i++) {
+                    JSONObject feedjson = responsearray.getJSONObject(i);
+                    FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
+                    allrecommendfeedsid.add(feedModel.getId());
+                }
+
+            }
+        };
+
+
+        discoveryfeedlist = GenerateFeedRecyclerView.generate(getActivity(), R.id.discoveryfeedlist, false, "/getrecommendfeed", feedListRefresh);
+
 
         FloatingActionButton discoveryreleasea = getActivity().findViewById(R.id.discoveryrelease);
         discoveryreleasea.setOnClickListener(new View.OnClickListener() {
@@ -111,64 +141,6 @@ public class DiscoveryFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
-
-        JSONObject requstbody = new JSONObject();
-        requstbody.put("allrecommendfeedsid", new JSONArray());
-
-        Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requstbody.toJSONString())).url(CONFIG.baseUrl + "/getrecommendfeed").build();
-        okHttpClient.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                JSONArray responsearray = JSONArray.parseArray(response.body().string());
-                for (int i = 0; i < responsearray.size(); i++) {
-                    JSONObject feedjson = responsearray.getJSONObject(i);
-
-                    FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
-                    feedModels.add(feedModel);
-                }
-
-                getActivity().runOnUiThread(() -> {
-
-
-                    FeedListRefresh feedListRefresh = new FeedListRefresh() {
-
-
-                        JSONArray allrecommendfeedsid = new JSONArray();
-                        HashMap<String, Object> requestparam = new HashMap();
-
-
-                        @Override
-                        public Map<String, Object> requestParam() {
-                            if (!requestparam.containsKey("allrecommendfeedsid")) {
-                                requestparam.put("allrecommendfeedsid", allrecommendfeedsid);
-                            }
-                            return requestparam;
-                        }
-
-                        @Override
-                        public void onRespone(String responseString) {
-                            JSONArray responsearray = JSONArray.parseArray(responseString);
-
-                            for (int i = 0; i < responsearray.size(); i++) {
-                                JSONObject feedjson = responsearray.getJSONObject(i);
-                                FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
-                                allrecommendfeedsid.add(feedModel.getId());
-                            }
-
-                        }
-                    };
-
-                    discoveryfeedlist = GenerateFeedRecyclerView.generate(getActivity(), feedModels, false, "/getrecommendfeed", feedListRefresh);
-
-                });
-            }
-        });
     }
 
     @Override

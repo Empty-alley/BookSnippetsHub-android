@@ -38,7 +38,10 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private boolean isrefresh = false;
 
-    private boolean donothavemore = false;
+    boolean donothavemore = false;
+
+
+    boolean loadingmore = false;
 
     private static final int FEED_ITEM = 0;
     private static final int BOTTOM_ITEM = 1;
@@ -105,15 +108,15 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.getBookname().setText(feedModel.getBookname());
             holder.getNicknametext().setText(feedModel.getNickname());
             holder.getDatetext().setText(feedModel.getTime());
-            String avatarurl=feedModel.getAvatarUrl();
+            String avatarurl = feedModel.getAvatarUrl();
 
             Uri avataruri;
-            if(avatarurl==null || avatarurl.equals("")){
-                avatarurl=CONFIG.baseUrl+"/sysimg/defaultavatar.png";
+            if (avatarurl == null || avatarurl.equals("")) {
+                avatarurl = CONFIG.baseUrl + "/sysimg/defaultavatar.png";
 
             }
-            if(avatarurl.startsWith("/")){
-                Uri.parse(CONFIG.baseUrl+avatarurl.toString());
+            if (avatarurl.startsWith("/")) {
+                Uri.parse(CONFIG.baseUrl + avatarurl.toString());
             }
             avataruri = Uri.parse(avatarurl);
 
@@ -347,6 +350,14 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public void setAllrecommendfeedsid(JSONArray allrecommendfeedsid) {
         this.allrecommendfeedsid = allrecommendfeedsid;
+    }
+
+    public boolean isLoadingmore() {
+        return loadingmore;
+    }
+
+    public void setLoadingmore(boolean loadingmore) {
+        this.loadingmore = loadingmore;
     }
 
     public void notifyChangeData() {
