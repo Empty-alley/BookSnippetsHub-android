@@ -1,5 +1,6 @@
 package com.booksnippetshub.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -22,14 +23,18 @@ import com.booksnippetshub.AboutActivity;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
 import com.booksnippetshub.FeedAdapter;
+import com.booksnippetshub.FeedListRefresh;
 import com.booksnippetshub.R;
 import com.booksnippetshub.RealseActivity;
 import com.booksnippetshub.model.FeedModel;
+import com.booksnippetshub.utils.GenerateFeedRecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -84,9 +89,8 @@ public class DiscoveryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        discoveryfeedlist = getActivity().findViewById(R.id.discoveryfeedlist);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        discoveryfeedlist.setLayoutManager(linearLayoutManager);
+
+
         FloatingActionButton discoveryreleasea = getActivity().findViewById(R.id.discoveryrelease);
         discoveryreleasea.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,79 +101,6 @@ public class DiscoveryFragment extends Fragment {
         });
 
 
-        discoveryfeedlist.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            boolean isfirstrun = false;
-
-
-            FeedAdapter feedAdapter = null;
-            LinearLayoutManager layoutManager = null;
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                if (layoutManager == null) {
-                    layoutManager = (LinearLayoutManager) discoveryfeedlist.getLayoutManager();
-                }
-
-                if (feedAdapter == null) {
-                    feedAdapter = (FeedAdapter) discoveryfeedlist.getAdapter();
-                }
-
-
-                if (isfirstrun) {
-                    if (layoutManager.findLastVisibleItemPosition() == discoveryfeedlist.getAdapter().getItemCount()) {
-                        feedAdapter.setDonothavemore(true);
-                    }
-                }
-                isfirstrun = false;
-
-                int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-
-                if ((lastVisibleItemPosition >= feedAdapter.getItemCount() - 1) && (feedAdapter.isDonothavemore() == false)) {
-
-                    OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
-
-                    JSONObject requstbody = new JSONObject();
-                    requstbody.put("allrecommendfeedsid", feedAdapter.getAllrecommendfeedsid());
-
-                    Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requstbody.toJSONString())).url(CONFIG.baseUrl + "/getrecommendfeed").build();
-                    okHttpClient.newCall(request).enqueue(new Callback() {
-                        @Override
-                        public void onFailure(Call call, IOException e) {
-                        }
-
-                        @Override
-                        public void onResponse(Call call, Response response) throws IOException {
-                            JSONArray responsearray = JSONArray.parseArray(response.body().string());
-
-                            if (responsearray.size() == 0) {
-                                feedAdapter.setDonothavemore(true);
-                                getActivity().runOnUiThread(() -> {
-                                    feedAdapter.notifyDataSetChanged();
-                                });
-
-                            } else {
-                                List<FeedModel> tempFeedModels = new ArrayList<>();
-
-                                for (int i = 0; i < responsearray.size(); i++) {
-                                    JSONObject feedjson = responsearray.getJSONObject(i);
-                                    FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
-                                    tempFeedModels.add(feedModel);
-                                    feedAdapter.getAllrecommendfeedsid().add(feedModel.getId());
-                                }
-
-                                getActivity().runOnUiThread(() -> {
-                                    feedAdapter.getFeedModels().addAll(tempFeedModels);
-                                    feedAdapter.notifyDataSetChanged();
-
-                                });
-                            }
-                        }
-                    });
-                }
-            }
-        });
     }
 
 
@@ -203,20 +134,45 @@ public class DiscoveryFragment extends Fragment {
                 }
 
                 getActivity().runOnUiThread(() -> {
-                    FeedAdapter feedAdapter = new FeedAdapter(feedModels);
-                    feedAdapter.setContext(getContext());
-                    discoveryfeedlist.setAdapter(feedAdapter);
+
+
+                    FeedListRefresh feedListRefresh = new FeedListRefresh() {
+
+
+                        JSONArray allrecommendfeedsid = new JSONArray();
+                        HashMap<String, Object> requestparam = new HashMap();
+
+
+                        @Override
+                        public Map<String, Object> requestParam() {
+                            if (!requestparam.containsKey("allrecommendfeedsid")) {
+                                requestparam.put("allrecommendfeedsid", allrecommendfeedsid);
+                            }
+                            return requestparam;
+                        }
+
+                        @Override
+                        public void onRespone(String responseString) {
+                            JSONArray responsearray = JSONArray.parseArray(responseString);
+
+                            for (int i = 0; i < responsearray.size(); i++) {
+                                JSONObject feedjson = responsearray.getJSONObject(i);
+                                FeedModel feedModel = feedjson.toJavaObject(FeedModel.class);
+                                allrecommendfeedsid.add(feedModel.getId());
+                            }
+
+                        }
+                    };
+
+                    discoveryfeedlist = GenerateFeedRecyclerView.generate(getActivity(), feedModels, false, "/getrecommendfeed", feedListRefresh);
+
                 });
             }
         });
-
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
     }
-
-
 }
