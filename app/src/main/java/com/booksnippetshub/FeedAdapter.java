@@ -105,7 +105,19 @@ public class FeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             holder.getBookname().setText(feedModel.getBookname());
             holder.getNicknametext().setText(feedModel.getNickname());
             holder.getDatetext().setText(feedModel.getTime());
-            holder.getAvatar().setImageURI(Uri.parse(feedModel.getAvatarUrl()));
+            String avatarurl=feedModel.getAvatarUrl();
+
+            Uri avataruri;
+            if(avatarurl==null || avatarurl.equals("")){
+                avatarurl=CONFIG.baseUrl+"/sysimg/defaultavatar.png";
+
+            }
+            if(avatarurl.startsWith("/")){
+                Uri.parse(CONFIG.baseUrl+avatarurl.toString());
+            }
+            avataruri = Uri.parse(avatarurl);
+
+            holder.getAvatar().setImageURI(avataruri);
             holder.getFeedcontenttext().setText(feedModel.getBookcontent());
             holder.getFeedcommenttext().setText(feedModel.getBookcomment());
 
