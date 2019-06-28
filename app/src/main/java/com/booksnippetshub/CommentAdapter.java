@@ -17,6 +17,11 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     List<Comment> comments;
 
+
+    public void addComment(Comment c) {
+        comments.add(c);
+    }
+
     Context context;
 
     public Context getContext() {
@@ -30,7 +35,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
     public CommentAdapter(List<Comment> comments) {
         this.comments = comments;
     }
-
 
 
     @NonNull
@@ -52,6 +56,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentViewHolder> {
 
 
     }
+
     @Override
     public int getItemCount() {
         return comments.size();

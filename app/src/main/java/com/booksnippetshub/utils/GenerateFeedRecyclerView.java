@@ -108,7 +108,7 @@ public class GenerateFeedRecyclerView {
 
                 int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
 
-                if ((lastVisibleItemPosition >= feedAdapter.getItemCount() - 1) && (feedAdapter.isDonothavemore() == false) && feedAdapter.isLoadingmore()==false) {
+                if ((lastVisibleItemPosition >= feedAdapter.getItemCount() - 1) && (feedAdapter.isDonothavemore() == false) && feedAdapter.isLoadingmore() == false) {
 
                     feedAdapter.setLoadingmore(true);
 

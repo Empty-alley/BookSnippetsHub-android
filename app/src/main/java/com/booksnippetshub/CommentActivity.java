@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class CommentActivity extends AppCompatActivity {
     private int id;
     private int userid;
     private boolean isfollow;
-
+    CommentAdapter commentAdapter;
     boolean isliked;
 
     int likecount;
@@ -54,6 +55,9 @@ public class CommentActivity extends AppCompatActivity {
     Button commentbtn;
     Button orwardbtn;
     Button followbtn;
+    Button commentbutton;
+    TextView commenteditText;
+
 
     TextView feedcontenttext;
     TextView feedcommenttext;
@@ -80,11 +84,9 @@ public class CommentActivity extends AppCompatActivity {
 
         feedid = getIntent().getIntExtra("feedid", 0);
 
-        commentlist=findViewById(R.id.historycomment);
+        commentlist = findViewById(R.id.historycomment);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         commentlist.setLayoutManager(linearLayoutManager);
-
-
 
 
         feedlikecount = findViewById(R.id.feedlikecount);
@@ -100,17 +102,65 @@ public class CommentActivity extends AppCompatActivity {
         avatar = findViewById(R.id.feedavatar);
         feedcontentlayout = findViewById(R.id.feedcontentlayout);
 
+        commentbutton = findViewById(R.id.commentbutton);
+        commenteditText = findViewById(R.id.commenteditText);
 
         setfeed(feedid);
         getcomment(feedid);
 
 
+        commentbutton.setOnClickListener((View v) -> {
+            String commenteditstring = commenteditText.getText().toString();
+
+            JSONObject requestjson = new JSONObject();
+            requestjson.put("feedid", feedid);
+            requestjson.put("commentvalue", commenteditstring);
+
+            Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requestjson.toJSONString())).url(CONFIG.baseUrl + "/addcomment").build();
+
+            OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
+
+            okHttpClient.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String responestring = response.body().string();
+
+                    JSONObject responsejson = JSONObject.parseObject(responestring);
+
+                    if (responsejson.getBoolean("isok") == true) {
+                        responsejson = responsejson.getJSONObject("comment");
+
+                        String avatarurl = responsejson.getString("AvatarUrl");
+                        if (avatarurl.startsWith("/")) avatarurl = CONFIG.baseUrl + avatarurl;
+                        String nickname = responsejson.getString("nickname");
+                        String comment = responsejson.getString("comment");
+
+                        String finalAvatarurl = avatarurl;
+                        runOnUiThread(() -> {
+                            commentAdapter.addComment(new Comment(finalAvatarurl, comment, nickname));
+                            commentAdapter.notifyDataSetChanged();
+                            Toast.makeText(CommentActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }
+            });
+
+        });
+
+
     }
+
 
     private void setfeed(int feedid) {
 
         JSONObject requestjson = new JSONObject();
         requestjson.put("feedid", feedid);
+
         Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requestjson.toJSONString())).url(CONFIG.baseUrl + "/getfeed").build();
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
@@ -130,7 +180,6 @@ public class CommentActivity extends AppCompatActivity {
 
                 int a = 234;
                 runOnUiThread(() -> {
-                    //TODO: set text
                     feedlikecount.setText(responejson.getString("likecount"));
                     feedcontenttext.setText(responejson.getString("bookcontent"));
                     feedcommenttext.setText(responejson.getString("bookcomment"));
@@ -170,7 +219,7 @@ public class CommentActivity extends AppCompatActivity {
         requestjson.put("feedid", feedid);
         Request request = new Request.Builder().post(RequestBody.create(MediaType.parse("application/json"), requestjson.toJSONString())).url(CONFIG.baseUrl + "/getallcomment").build();
 
-        Context thiscontext=this;
+        Context thiscontext = this;
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder().addInterceptor(new AuthorizationHeaderInterceptor()).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
@@ -192,7 +241,7 @@ public class CommentActivity extends AppCompatActivity {
                     comments.add(temp);
                 }
 
-                CommentAdapter commentAdapter = new CommentAdapter(comments);
+                commentAdapter = new CommentAdapter(comments);
 
                 runOnUiThread(() -> {
                     commentAdapter.setContext(thiscontext);
