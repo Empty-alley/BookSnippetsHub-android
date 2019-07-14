@@ -3,6 +3,7 @@ package com.booksnippetshub.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.booksnippetshub.R;
 
 
 public class MainFragment extends Fragment {
+    public static  String TAG="MainFragment";
 
     ViewPager viewPager;
     LinearLayout followbtn;
@@ -39,6 +41,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: ");
         super.onCreate(savedInstanceState);
 
     }
@@ -46,12 +49,14 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
         return inflater.inflate(R.layout.fragment_mainpage, container, false);
 
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: ");
         super.onActivityCreated(savedInstanceState);
 
         viewPager = getActivity().findViewById(R.id.viewpager);
@@ -86,12 +91,10 @@ public class MainFragment extends Fragment {
                 } else if (position == 0) {
                     showRecommandBottomLine();
                 }
-
             }
-
             @Override
             public void onPageScrollStateChanged(int state) {
-
+                Log.d(TAG, "onPageScrollStateChanged: "+String.valueOf(state));
             }
         });
 
@@ -111,15 +114,18 @@ public class MainFragment extends Fragment {
     }
 
     public void onButtonPressed(Uri uri) {
+        Log.d(TAG, "onButtonPressed: ");
     }
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach: ");
         super.onAttach(context);
     }
 
     @Override
     public void onDetach() {
+        Log.d(TAG, "onDetach: ");
         super.onDetach();
     }
 
