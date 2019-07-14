@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.R;
 
 import java.io.IOException;
 

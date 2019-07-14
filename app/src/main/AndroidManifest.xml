@@ -18,18 +18,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".AboutActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".CommentActivity" />
-        <activity android:name=".ChangeAvatarActivity" />
-        <activity android:name=".BookActivity" />
-        <activity android:name=".RealseActivity" />
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.MainActivity" />
+        <activity android:name=".activity.AboutActivity" />
+        <activity android:name=".activity.SettingActivity" />
+        <activity android:name=".activity.CommentActivity" />
+        <activity android:name=".activity.ChangeAvatarActivity" />
+        <activity android:name=".activity.BookActivity" />
+        <activity android:name=".activity.RealseActivity" />
 
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

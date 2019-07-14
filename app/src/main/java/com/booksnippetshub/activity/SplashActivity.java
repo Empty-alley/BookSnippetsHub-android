@@ -1,14 +1,14 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
-import android.telecom.Conference;
 import android.view.WindowManager;
+
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.R;
 
 public class SplashActivity extends AppCompatActivity {
 

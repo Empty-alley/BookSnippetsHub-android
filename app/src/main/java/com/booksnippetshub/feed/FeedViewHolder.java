@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.feed;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.booksnippetshub.R;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class FeedViewHolder extends RecyclerView.ViewHolder {

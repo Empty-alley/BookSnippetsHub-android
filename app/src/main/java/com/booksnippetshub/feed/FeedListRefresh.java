@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.feed;
 
 
 

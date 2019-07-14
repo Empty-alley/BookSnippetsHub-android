@@ -1,49 +1,31 @@
 package com.booksnippetshub.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.booksnippetshub.AboutActivity;
-import com.booksnippetshub.AuthorizationHeaderInterceptor;
-import com.booksnippetshub.CONFIG;
-import com.booksnippetshub.FeedAdapter;
-import com.booksnippetshub.FeedListRefresh;
+import com.booksnippetshub.feed.FeedListRefresh;
 import com.booksnippetshub.R;
-import com.booksnippetshub.RealseActivity;
+import com.booksnippetshub.activity.RealseActivity;
 import com.booksnippetshub.model.FeedModel;
 import com.booksnippetshub.utils.GenerateFeedRecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 
 public class DiscoveryFragment extends Fragment {

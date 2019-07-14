@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
 
 import android.content.DialogInterface;
@@ -10,6 +10,9 @@ import android.widget.EditText;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.*;
+import com.booksnippetshub.AuthorizationHeaderInterceptor;
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.R;
 import com.booksnippetshub.fragment.DiscoveryFragment;
 
 import androidx.annotation.Nullable;

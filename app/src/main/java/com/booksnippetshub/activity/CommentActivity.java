@@ -1,28 +1,25 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.AuthorizationHeaderInterceptor;
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.CommentAdapter;
+import com.booksnippetshub.R;
 import com.booksnippetshub.model.Comment;
-import com.booksnippetshub.model.FeedModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.io.IOException;

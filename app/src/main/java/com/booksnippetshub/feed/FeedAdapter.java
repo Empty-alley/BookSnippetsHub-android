@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.feed;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,21 +8,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.AuthorizationHeaderInterceptor;
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.R;
+import com.booksnippetshub.activity.BookActivity;
+import com.booksnippetshub.activity.CommentActivity;
 import com.booksnippetshub.model.FeedModel;
-import com.facebook.drawee.view.SimpleDraweeView;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;

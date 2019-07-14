@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.R;
 
 import java.io.IOException;
 

@@ -20,7 +20,7 @@ import com.booksnippetshub.R;
 public class CollectMainFragment extends Fragment {
 
     ViewPager viewPager;
-    TextView followbtn;
+    LinearLayout followbtn;
     TextView bookstorebtn;
 
     LinearLayout followbookbottomline;

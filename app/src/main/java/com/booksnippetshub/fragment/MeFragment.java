@@ -22,13 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
-import com.booksnippetshub.AboutActivity;
+import com.booksnippetshub.activity.AboutActivity;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
-import com.booksnippetshub.LoginActivity;
+import com.booksnippetshub.activity.LoginActivity;
 import com.booksnippetshub.MenuItemContainer;
 import com.booksnippetshub.R;
-import com.booksnippetshub.SettingActivity;
+import com.booksnippetshub.activity.SettingActivity;
 import com.booksnippetshub.utils.UriToByteArray;
 import com.facebook.drawee.view.SimpleDraweeView;
 

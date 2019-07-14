@@ -1,4 +1,4 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.booksnippetshub.AuthorizationHeaderInterceptor;
+import com.booksnippetshub.CONFIG;
+import com.booksnippetshub.R;
 import com.booksnippetshub.model.FeedModel;
 import com.facebook.drawee.view.SimpleDraweeView;
 

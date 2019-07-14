@@ -11,10 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.booksnippetshub.AuthorizationHeaderInterceptor;
-import com.booksnippetshub.FeedListRefresh;
+import com.booksnippetshub.feed.FeedListRefresh;
 import com.booksnippetshub.R;
 import com.booksnippetshub.model.FeedModel;
 import com.booksnippetshub.utils.GenerateFeedRecyclerView;
@@ -23,8 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import okhttp3.OkHttpClient;
 
 
 public class FollowFeedFragment extends Fragment {

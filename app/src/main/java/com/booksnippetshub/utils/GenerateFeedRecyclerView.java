@@ -1,7 +1,6 @@
 package com.booksnippetshub.utils;
 
 import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,9 +11,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.booksnippetshub.AuthorizationHeaderInterceptor;
 import com.booksnippetshub.CONFIG;
-import com.booksnippetshub.FeedAdapter;
-import com.booksnippetshub.FeedListRefresh;
-import com.booksnippetshub.R;
+import com.booksnippetshub.feed.FeedAdapter;
+import com.booksnippetshub.feed.FeedListRefresh;
 import com.booksnippetshub.model.FeedModel;
 
 import java.io.IOException;

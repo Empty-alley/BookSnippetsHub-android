@@ -1,7 +1,8 @@
-package com.booksnippetshub;
+package com.booksnippetshub.activity;
 
 import android.os.Bundle;
 
+import com.booksnippetshub.R;
 import com.booksnippetshub.fragment.CollectMainFragment;
 import com.booksnippetshub.fragment.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;

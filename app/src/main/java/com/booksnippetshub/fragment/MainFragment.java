@@ -1,21 +1,15 @@
 package com.booksnippetshub.fragment;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.booksnippetshub.MainFragmentPagerAdapter;
@@ -25,8 +19,8 @@ import com.booksnippetshub.R;
 public class MainFragment extends Fragment {
 
     ViewPager viewPager;
-    TextView followbtn;
-    TextView recommand;
+    LinearLayout followbtn;
+    LinearLayout recommandbtn;
 
     LinearLayout recommandbottomline;
     LinearLayout followbottomline;
@@ -63,7 +57,7 @@ public class MainFragment extends Fragment {
         viewPager = getActivity().findViewById(R.id.viewpager);
 
         followbtn = getActivity().findViewById(R.id.follow);
-        recommand = getActivity().findViewById(R.id.recommand);
+        recommandbtn = getActivity().findViewById(R.id.recommand);
         MainFragmentPagerAdapter mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getChildFragmentManager());
 
         recommandbottomline = getActivity().findViewById(R.id.recommandbottomline);
@@ -101,7 +95,7 @@ public class MainFragment extends Fragment {
             }
         });
 
-        recommand.setOnClickListener((View v) -> {
+        recommandbtn.setOnClickListener((View v) -> {
             if (viewPager.getCurrentItem() != 0) {
                 viewPager.setCurrentItem(0, true);
                 showRecommandBottomLine();
