@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,16 +30,29 @@ import java.util.Map;
 
 
 public class DiscoveryFragment extends Fragment {
+    static String TAG="DiscoveryFragment";
 
     private List<FeedModel> feedModels = new ArrayList<>();
 
     RecyclerView discoveryfeedlist;
 
 
+    @Override
+    public void onStop() {
+        Log.d(TAG, "onStop: ");
+        super.onStop();
+    }
+
     public DiscoveryFragment() {
         this.setArguments(new Bundle());
     }
 
+
+    @Override
+    public void onDestroyView() {
+        Log.d(TAG, "onDestroyView: ");
+        super.onDestroyView();
+    }
 
     public static DiscoveryFragment newInstance(String param1, String param2) {
         DiscoveryFragment fragment = new DiscoveryFragment();
@@ -61,6 +75,7 @@ public class DiscoveryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView: ");
 
         View view = inflater.inflate(R.layout.fragment_discovery_release, container, false);
 
@@ -69,6 +84,7 @@ public class DiscoveryFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onActivityCreated: ");
         super.onActivityCreated(savedInstanceState);
 
         FeedListRefresh feedListRefresh = new FeedListRefresh() {
@@ -117,16 +133,31 @@ public class DiscoveryFragment extends Fragment {
 
 
     public void onButtonPressed(Uri uri) {
+        Log.d(TAG, "onButtonPressed: ");
     }
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach: ");
         super.onAttach(context);
 
     }
 
     @Override
+    public void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+    }
+
+    @Override
     public void onDetach() {
+        Log.d(TAG, "onDetach: ");
         super.onDetach();
     }
 }

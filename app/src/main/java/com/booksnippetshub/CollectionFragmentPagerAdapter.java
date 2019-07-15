@@ -1,8 +1,5 @@
 package com.booksnippetshub;
 
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -10,8 +7,8 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
-    public MainFragmentPagerAdapter(FragmentManager fm) {
+public class CollectionFragmentPagerAdapter extends FragmentPagerAdapter {
+    public CollectionFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
@@ -21,10 +18,6 @@ public class MainFragmentPagerAdapter extends FragmentPagerAdapter {
         fragments.add(f);
     }
 
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        super.destroyItem(container, position, object);
-    }
 
     @Override
     public Fragment getItem(int position) {

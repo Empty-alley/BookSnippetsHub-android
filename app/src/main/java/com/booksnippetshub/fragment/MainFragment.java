@@ -55,6 +55,18 @@ public class MainFragment extends Fragment {
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        Log.d(TAG, "onHiddenChanged: "+String.valueOf(hidden));
+        if(hidden==false){
+            int currentItem = viewPager.getCurrentItem();
+
+            Log.d(TAG, "viewPager.getCurrentItem(): "+String.valueOf(currentItem));
+
+        }
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onActivityCreated: ");
         super.onActivityCreated(savedInstanceState);

@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.booksnippetshub.CollectionFragmentPagerAdapter;
 import com.booksnippetshub.MainFragmentPagerAdapter;
 import com.booksnippetshub.R;
 
@@ -59,17 +60,17 @@ public class CollectMainFragment extends Fragment {
 
         followbtn = getActivity().findViewById(R.id.follow);
         bookstorebtn = getActivity().findViewById(R.id.bookstore);
-        MainFragmentPagerAdapter mainFragmentPagerAdapter = new MainFragmentPagerAdapter(getChildFragmentManager());
+        CollectionFragmentPagerAdapter collectionFragmentPagerAdapter = new CollectionFragmentPagerAdapter(getChildFragmentManager());
 
         followbookbottomline = getActivity().findViewById(R.id.followbookbottomline);
         bookstorebottomline = getActivity().findViewById(R.id.bookstorebottomline);
 
 
-        mainFragmentPagerAdapter.addFragment(new DiscoveryFragment());
-        mainFragmentPagerAdapter.addFragment(new CollectionFragment());
+        collectionFragmentPagerAdapter.addFragment(MyLikeCollectionFragment.newInstance());
+        collectionFragmentPagerAdapter.addFragment(AllCollectionFragment.newInstance());
 
 
-        viewPager.setAdapter(mainFragmentPagerAdapter);
+        viewPager.setAdapter(collectionFragmentPagerAdapter);
         viewPager.setCurrentItem(0);
         showRecommandBottomLine();
 
