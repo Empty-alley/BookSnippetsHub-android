@@ -28,6 +28,10 @@
         <activity android:name=".activity.BookActivity" />
         <activity android:name=".activity.RealseActivity" />
 
+        <activity android:name=".activity.SearchFeedActivity"
+            android:parentActivityName=".activity.MainActivity"
+            />
+
         <activity
             android:name=".activity.SplashActivity"
             android:label="@string/app_name">

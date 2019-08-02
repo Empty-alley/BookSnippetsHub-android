@@ -1,5 +1,6 @@
 package com.booksnippetshub.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.booksnippetshub.R;
@@ -7,6 +8,7 @@ import com.booksnippetshub.fragment.CollectMainFragment;
 import com.booksnippetshub.fragment.MainFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -14,7 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.annotation.NonNull;
 
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
 
 import com.booksnippetshub.fragment.CollectionFragment;
 import com.booksnippetshub.fragment.MeFragment;
@@ -28,10 +35,54 @@ public class MainActivity extends AppCompatActivity {
     //当前Fragment
     private Fragment currentFragment;
     private boolean isFirstStart = true;
+    SearchView searchView;
 
     //初始化四个Fragment
 
-//    private DiscoveryFragment mainFragment = new DiscoveryFragment();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.actionbar_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.search_btn);
+        this.searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            String TAG = "searchView";
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.d(TAG, query);
+                if (query.length() < 2) {
+                    Toast.makeText(MainActivity.this, "不能小于两个字", Toast.LENGTH_SHORT).show();
+                    return false;
+                } else {
+                    Intent tosearchactivity = new Intent(MainActivity.this, SearchFeedActivity.class);
+                    tosearchactivity.putExtra("keywordvalue", query);
+                    startActivity(tosearchactivity);
+                    return true;
+                }
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.search_btn) {
+            System.out.println("搜索按钮");
+        }
+
+        System.out.println(item.getItemId());
+        return super.onOptionsItemSelected(item);
+    }
+
+    //    private DiscoveryFragment mainFragment = new DiscoveryFragment();
     private MainFragment mainFragment = new MainFragment();
     private NotificationFragment notificationFragment = new NotificationFragment();
     private MeFragment meFragment = new MeFragment();

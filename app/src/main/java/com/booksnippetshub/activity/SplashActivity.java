@@ -5,12 +5,14 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.WindowManager;
 
 import com.booksnippetshub.CONFIG;
 import com.booksnippetshub.R;
 
 public class SplashActivity extends AppCompatActivity {
+    String TAG="SplashActivity";
 
 
     @Override
@@ -59,8 +61,18 @@ public class SplashActivity extends AppCompatActivity {
         } else {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         }
+        finish();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+    }
 
-
+    @Override
+    protected void onPause() {
+        Log.d(TAG, "onPause: ");
+        super.onPause();
+    }
 }
